@@ -74,7 +74,7 @@ body::before{content:'';position:fixed;inset:0;background-image:url("data:image/
 #cur-r{width:32px;height:32px;border:1px solid var(--rose);border-radius:50%;position:fixed;pointer-events:none;z-index:9998;opacity:.4;transform:translate(-50%,-50%);transition:all .15s ease-out}
 
 /* THEME BAR */
-#tbar{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:1000;display:flex;flex-direction:column;gap:8px;padding:14px 10px;background:var(--bg2);border:1px solid var(--border);border-right:none;border-radius:14px 0 0 14px;backdrop-filter:blur(20px)}
+#tbar{position:fixed;top:50%;right:0;transform:translateY(-50%);z-index:1100;display:flex;flex-direction:column;gap:8px;padding:14px 10px;background:var(--bg2);border:1px solid var(--border);border-right:none;border-radius:14px 0 0 14px;backdrop-filter:blur(20px)}
 .tlabel{font-size:8px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-d);writing-mode:vertical-rl;text-align:center;margin:2px auto}
 .td{width:22px;height:22px;border-radius:50%;cursor:none;border:2px solid transparent;transition:transform .25s,border-color .25s;flex-shrink:0}
 .td:hover{transform:scale(1.25)}
@@ -291,7 +291,23 @@ footer span{color:var(--rose)}
   #hero{padding:100px 24px 60px}
   section{padding:70px 24px}
   .about-wrap,.edu-grid{grid-template-columns:1fr;gap:40px}
-  #tbar{display:none}
+  #tbar{
+    display:flex;
+    flex-direction:row;
+    top:auto;
+    bottom:20px;
+    right:50%;
+    transform:translateX(50%);
+    gap:10px;
+    padding:10px 18px;
+    border-radius:100px;
+    border:1px solid var(--border-h);
+    background:color-mix(in srgb, var(--bg2) 90%, transparent);
+    width:max-content;
+    box-shadow:0 10px 30px rgba(0,0,0,0.5);
+  }
+  .tlabel{display:none}
+  .td{width:24px;height:24px}
   .sc-hint{left:24px;bottom:20px}
   #contact{padding:70px 24px}
   .hero-stats{flex-direction:column;border:none;gap:0;max-width:100%}

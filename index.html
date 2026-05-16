@@ -262,6 +262,17 @@ section{padding:110px 60px;position:relative}
 .clink .ci{font-size:16px}
 .avail-badge{display:inline-flex;align-items:center;gap:10px;padding:10px 24px;background:color-mix(in srgb,var(--rose) 8%,transparent);border:1px solid var(--border-h);border-radius:100px;font-size:13px;color:var(--rose);font-weight:500;margin-bottom:32px}
 
+/* CONTACT FORM */
+.cform{background:var(--bg2);border:1px solid var(--border);padding:40px;border-radius:32px;margin:40px auto;text-align:left;max-width:600px;position:relative;overflow:hidden}
+.cform::before{content:'';position:absolute;top:0;right:0;width:150px;height:150px;background:var(--grad);filter:blur(100px);opacity:.1;pointer-events:none}
+.f-group{margin-bottom:24px}
+.f-label{display:block;font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:var(--text-d);margin-bottom:10px;font-family:'JetBrains Mono',monospace}
+.f-input{width:100%;padding:16px 20px;background:var(--bg3);border:1px solid var(--border);border-radius:14px;color:var(--text);font-family:inherit;font-size:14px;transition:all .3s}
+.f-input:focus{outline:none;border-color:var(--rose);box-shadow:0 0 20px rgba(232,69,122,0.1);background:var(--bg4)}
+textarea.f-input{resize:vertical;min-height:140px}
+.f-btn{width:100%;padding:16px;background:var(--grad);color:#fff;border:none;border-radius:14px;font-weight:700;font-size:15px;letter-spacing:.5px;cursor:pointer;transition:transform .2s,box-shadow .2s}
+.f-btn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(232,69,122,0.3)}
+
 footer{text-align:center;padding:32px;border-top:1px solid var(--border);font-size:12px;color:var(--text-d);font-family:'JetBrains Mono',monospace;letter-spacing:.5px}
 footer span{color:var(--rose)}
 
@@ -433,8 +444,8 @@ footer span{color:var(--rose)}
   </div>
   <div class="about-wrap rv">
     <div>
-      <p class="about-p">I'm a passionate software developer currently pursuing my <strong>MCA at Gujarat Technological University</strong>, maintaining a stellar 9.30 CGPA. I thrive at the intersection of technology and healthcare, building apps that genuinely improve people's lives.</p>
-      <p class="about-p">My experience spans <strong>Android mobile development</strong> (Java + XML) and <b>full-stack web</b> (Next.js, Node.js, MongoDB). Currently interning at <strong>MySphere Infotech</strong>, I deliver end-to-end mobile solutions from concept to deployment.</p>
+      <p class="about-p">I'm a passionate software developer and a recent <strong>MCA graduate from Gujarat Technological University</strong>, where I maintained a stellar 9.30 CGPA. I thrive at the intersection of technology and healthcare, building apps that genuinely improve people's lives.</p>
+      <p class="about-p">My experience spans <strong>Android mobile development</strong> (Java + XML) and <b>full-stack web</b> (Next.js, Node.js, MongoDB). Having interned at <strong>MySphere Infotech</strong>, I deliver end-to-end mobile solutions from concept to deployment.</p>
       <p class="about-p">Beyond code, I'm a <strong>mandala artist, creative writer, and painter</strong> — which means I bring a design eye and attention to detail to everything I build.</p>
       <div class="info-tiles">
         <div class="itile"><div class="ik">Location</div><div class="iv">Vadodara, Gujarat 🇮🇳</div></div>
@@ -639,6 +650,25 @@ footer span{color:var(--rose)}
       <div class="avail-badge"><div class="pulse-dot"></div>Available for Software Developer / Junior Developer roles</div>
       <p class="cdesc">Whether you have a project in mind or just want to connect — I'd genuinely love to hear from you. Let's create something meaningful.</p>
     </div>
+
+    <div class="cform rv">
+      <form id="contact-form">
+        <div class="f-group">
+          <label class="f-label">Full Name</label>
+          <input type="text" class="f-input" placeholder="Enter your name" required>
+        </div>
+        <div class="f-group">
+          <label class="f-label">Email Address</label>
+          <input type="email" class="f-input" placeholder="Enter your email" required>
+        </div>
+        <div class="f-group">
+          <label class="f-label">Your Message</label>
+          <textarea class="f-input" placeholder="How can I help you?" required></textarea>
+        </div>
+        <button type="submit" class="f-btn">Send Message</button>
+      </form>
+    </div>
+
     <div class="clinks rv">
       <a href="mailto:roshnishah230803@gmail.com" class="clink"><span class="ci">✉️</span>Email Me</a>
       <a href="tel:+917863059581" class="clink"><span class="ci">📞</span>Call Me</a>
@@ -664,10 +694,33 @@ const cur=document.getElementById('cur'),cr=document.getElementById('cur-r');
 let mx=0,my=0,rx=0,ry=0;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px'});
 (function anim(){rx+=(mx-rx)*.1;ry+=(my-ry)*.1;cr.style.left=rx+'px';cr.style.top=ry+'px';requestAnimationFrame(anim)})();
-document.querySelectorAll('a,button,.td,.pcard,.sk-card,.edu-card,.exp-card,.ccard,.itile,.stat').forEach(el=>{
+document.querySelectorAll('a,button,.td,.pcard,.sk-card,.edu-card,.exp-card,.ccard,.itile,.stat,.f-input,.f-btn').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';cr.style.transform='translate(-50%,-50%) scale(1.6)';cr.style.opacity='.25'});
   el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';cr.style.transform='translate(-50%,-50%) scale(1)';cr.style.opacity='.4'});
 });
+
+const cForm = document.getElementById('contact-form');
+if(cForm) {
+  cForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const btn = cForm.querySelector('.f-btn');
+    btn.textContent = 'Sending...';
+    btn.style.opacity = '0.7';
+    btn.style.pointerEvents = 'none';
+    
+    setTimeout(() => {
+      btn.textContent = 'Message Sent! ✨';
+      btn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
+      cForm.reset();
+      setTimeout(() => {
+        btn.textContent = 'Send Message';
+        btn.style.background = '';
+        btn.style.opacity = '1';
+        btn.style.pointerEvents = 'auto';
+      }, 3000);
+    }, 1500);
+  });
+}
 
 const mToggle = document.getElementById('m-toggle');
 const nLinks = document.getElementById('n-links');

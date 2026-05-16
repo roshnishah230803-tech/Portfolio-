@@ -99,6 +99,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:900;display:flex;align-items:cen
 .nlinks a:hover::after{width:100%}
 .nav-cta{padding:9px 22px;background:var(--grad);color:#fff;text-decoration:none;border-radius:100px;font-size:13px;font-weight:600;letter-spacing:.3px;transition:transform .2s,box-shadow .2s;border:none;cursor:none}
 .nav-cta:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(0,0,0,.4)}
+.menu-toggle{display:none}
 
 /* HERO — centered single column */
 #hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:120px 60px 80px;position:relative;overflow:hidden;text-align:center}
@@ -271,22 +272,52 @@ footer span{color:var(--rose)}
 /* DIVIDER */
 .sec-div{height:1px;background:linear-gradient(90deg,transparent,var(--rose),transparent);opacity:.2;margin:0 60px}
 
-/* MOBILE */
+/* MOBILE IMPROVEMENTS */
 @media(max-width:900px){
-  nav{padding:14px 24px}
-  .nlinks{gap:16px}
-  .nlinks a,.nav-cta{font-size:12px}
+  .sec-div{margin:0 24px}
+  
+  nav{padding:14px 20px; justify-content: space-between;}
+  .nav-cta{order: 2; margin-left: auto; margin-right: 15px;}
+  .menu-toggle{order: 3; display:flex;flex-direction:column;gap:5px;cursor:pointer;padding:5px;z-index:1001;}
+  .nlogo{order: 1;}
+  
+  .nlinks{display:none;position:absolute;top:100%;left:0;right:0;background:var(--bg2);flex-direction:column;gap:0;padding:20px 0;border-bottom:1px solid var(--border);backdrop-filter:blur(24px);z-index:1000;}
+  .nlinks.open{display:flex}
+  .nlinks li{width:100%;text-align:center}
+  .nlinks a{display:block;padding:15px;font-size:16px}
+  .nav-cta{order: 2; margin-left: auto; margin-right: 15px; padding:7px 16px; font-size:12px;}
+  .menu-toggle span{width:24px;height:2px;background:var(--text);transition:.3s}
+  
   #hero{padding:100px 24px 60px}
   section{padding:70px 24px}
   .about-wrap,.edu-grid{grid-template-columns:1fr;gap:40px}
   #tbar{display:none}
-  .sc-hint{left:24px}
+  .sc-hint{left:24px;bottom:20px}
   #contact{padding:70px 24px}
   .hero-stats{flex-direction:column;border:none;gap:0;max-width:100%}
   .stat{border-right:none;border-bottom:1px solid var(--border);padding:14px 0}
   .stat:last-child{border-bottom:none}
-  .hero-name{font-size:clamp(60px,15vw,90px)}
+  .hero-name{font-size:clamp(50px,14vw,80px);letter-spacing:-2px}
   .info-tiles{grid-template-columns:1fr 1fr}
+  .proj-grid{grid-template-columns:1fr}
+  
+  /* Hide custom cursor on mobile/touch */
+  #cur, #cur-r { display: none !important; }
+  body { cursor: auto !important; }
+  .nav-cta, .btn-p, .btn-o, .clink, .td, a, button { cursor: pointer !important; }
+}
+
+@media(max-width:480px){
+  .hero-name{font-size:clamp(40px,16vw,60px)}
+  .stitle{font-size:clamp(30px,8vw,42px);margin-bottom:40px}
+  .info-tiles{grid-template-columns:1fr}
+  .hero-meta{flex-direction:column;gap:10px;align-items:center}
+  .hero-btns{flex-direction:column;width:100%}
+  .btn-p, .btn-o{width:100%;text-align:center}
+  .hero-chip{flex-direction:column;text-align:center;padding:15px;border-radius:20px}
+  .exp-card{grid-template-columns:1fr;text-align:center}
+  .exp-icon{margin:0 auto 20px}
+  .exp-bullets li{text-align:left}
 }
 </style>
 </head>
@@ -313,7 +344,12 @@ footer span{color:var(--rose)}
 <!-- NAV -->
 <nav>
   <div class="nlogo">RS_</div>
-  <ul class="nlinks">
+  <div class="menu-toggle" id="m-toggle">
+    <span></span>
+    <span></span>
+    <span></span>
+  </div>
+  <ul class="nlinks" id="n-links">
     <li><a href="#about">About</a></li>
     <li><a href="#skills">Skills</a></li>
     <li><a href="#experience">Experience</a></li>
@@ -603,6 +639,25 @@ document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.le
 document.querySelectorAll('a,button,.td,.pcard,.sk-card,.edu-card,.exp-card,.ccard,.itile,.stat').forEach(el=>{
   el.addEventListener('mouseenter',()=>{cur.style.width='14px';cur.style.height='14px';cr.style.transform='translate(-50%,-50%) scale(1.6)';cr.style.opacity='.25'});
   el.addEventListener('mouseleave',()=>{cur.style.width='8px';cur.style.height='8px';cr.style.transform='translate(-50%,-50%) scale(1)';cr.style.opacity='.4'});
+});
+
+const mToggle = document.getElementById('m-toggle');
+const nLinks = document.getElementById('n-links');
+mToggle.addEventListener('click', () => {
+  nLinks.classList.toggle('open');
+  const spans = mToggle.querySelectorAll('span');
+  if(nLinks.classList.contains('open')) {
+    spans[0].style.transform = 'rotate(45deg) translate(5px, 5px)';
+    spans[1].style.opacity = '0';
+    spans[2].style.transform = 'rotate(-45deg) translate(5px, -5px)';
+  } else {
+    spans[0].style.transform = 'none';
+    spans[1].style.opacity = '1';
+    spans[2].style.transform = 'none';
+  }
+});
+nLinks.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => nLinks.classList.remove('open'));
 });
 
 const prog=document.getElementById('prog');

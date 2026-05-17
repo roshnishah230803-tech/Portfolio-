@@ -653,17 +653,19 @@ footer span{color:var(--rose)}
 
     <div class="cform rv">
       <form id="contact-form">
+        <input type="hidden" name="_subject" value="New Portfolio Submission!">
+        <input type="hidden" name="_template" value="table">
         <div class="f-group">
           <label class="f-label">Full Name</label>
-          <input type="text" class="f-input" placeholder="Enter your name" required>
+          <input type="text" name="name" class="f-input" placeholder="Enter your name" required>
         </div>
         <div class="f-group">
           <label class="f-label">Email Address</label>
-          <input type="email" class="f-input" placeholder="Enter your email" required>
+          <input type="email" name="email" class="f-input" placeholder="Enter your email" required>
         </div>
         <div class="f-group">
           <label class="f-label">Your Message</label>
-          <textarea class="f-input" placeholder="How can I help you?" required></textarea>
+          <textarea name="message" class="f-input" placeholder="How can I help you?" required></textarea>
         </div>
         <button type="submit" class="f-btn">Send Message</button>
       </form>
@@ -704,21 +706,39 @@ if(cForm) {
   cForm.addEventListener('submit', (e) => {
     e.preventDefault();
     const btn = cForm.querySelector('.f-btn');
+    const originalText = btn.textContent;
     btn.textContent = 'Sending...';
     btn.style.opacity = '0.7';
     btn.style.pointerEvents = 'none';
     
-    setTimeout(() => {
-      btn.textContent = 'Message Sent! ✨';
-      btn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
-      cForm.reset();
-      setTimeout(() => {
-        btn.textContent = 'Send Message';
-        btn.style.background = '';
-        btn.style.opacity = '1';
-        btn.style.pointerEvents = 'auto';
-      }, 3000);
-    }, 1500);
+    const formData = new FormData(cForm);
+
+    fetch("https://formsubmit.co/ajax/roshnishah230803@gmail.com", {
+        method: "POST",
+        body: formData
+    })
+    .then(response => response.json())
+    .then(data => {
+        btn.textContent = 'Message Sent! ✨';
+        btn.style.background = 'linear-gradient(135deg, #43a047, #2e7d32)';
+        cForm.reset();
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        }, 3000);
+    })
+    .catch(error => {
+        btn.textContent = 'Error! Try Again';
+        btn.style.background = 'linear-gradient(135deg, #e53935, #b71c1c)';
+        setTimeout(() => {
+          btn.textContent = originalText;
+          btn.style.background = '';
+          btn.style.opacity = '1';
+          btn.style.pointerEvents = 'auto';
+        }, 3000);
+    });
   });
 }
 
